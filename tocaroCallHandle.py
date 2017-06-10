@@ -30,7 +30,7 @@ class TocaroApi(object):
     payload={"text":"ZBX detected failure","attachments":[{"title":title,"value":value}]}
 
     ### debug
-    debugflag = 0
+    debugflag = 1
     if debugflag == 1:
       fd = open('/home/ansible/pythonTools/log/otrs.log', 'a')
       fd.write("tocaro_title= "+ title + "\n")

@@ -33,8 +33,10 @@ til = open(tmpInitlist,"a")
 for i in boto3.resource('ec2').instances.iterator():
   pubip = str(i.public_ip_address)
   privip = str(i.private_ip_address)
+
   ##tagname = str(i.tags[0]['Value'])
   tagname = i.tags[0]['Value']
+
   dnsname = i.private_dns_name
   if dnsname != "":
     zbxhostnm = dnsname.split('.')[0]

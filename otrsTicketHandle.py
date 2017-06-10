@@ -59,6 +59,7 @@ class OTRSApi(object):
                   }
                }
 
+    # POST
     headerstr = {'Content-type': 'application/json', 'Accept-Encoding': None}
     response = requests.post(url, data=json.dumps(payload), headers=headerstr)
 
@@ -84,3 +85,18 @@ class OTRSApi(object):
 ##    print response.code
     return response.read()
 
+########################################
+#### チケット詳細取得
+########################################
+  def GetTicket(self, methodType, num):
+    url = self.base_url + "Get/" + str(num) + "?"
+
+    params = urllib.urlencode(
+              {'UserLogin': self.otrs_user,
+               'Password': self.otrs_pass,
+               'DynamicFields': 1
+              })
+
+    # GET
+    response = urllib.urlopen(url + params)
+    return response.read()

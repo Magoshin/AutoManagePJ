@@ -61,11 +61,17 @@ if __name__ == "__main__":
     ot_priority = "5 very high"
     ot_sev = "致命的な障害"
 
+  ### ローカルファイルへの吐き出し
+  zabbix_eventlog = "/var/log/zabbix/zabbix_event.log"
+  log_messages = event_date + " " + event_time + " " + ot_sev + " " + hostname + " " + trigger_name
+  with open('/var/log/zabbix/zabbix_event.log','a') as fh:
+    fh.write(log_messages + '\n')
+
   ### OTRS 連携
   # インシデント情報の加工
   title = "Failure was detected in the ZBX"
   type = "Problem"
-  queue = "Miyake"
+  queue = "FailureNotifi"
   state = "new"  
   priority = ot_priority
   customer_user = "testcust"
@@ -79,7 +85,7 @@ if __name__ == "__main__":
 
   ### Tocaro 連携
   tc_title = otrs_subject
-  ticket_url = "http://13.112.7.193/otrs/index.pl?Action=AgentTicketZoom;TicketID=" + newid
+  ticket_url = "http://52.199.253.24/otrs/index.pl?Action=AgentTicketZoom;TicketID=" + newid
   value = "Check the Failure information in " + ticket_url
   Tc_ins = TocaroApi()
 
