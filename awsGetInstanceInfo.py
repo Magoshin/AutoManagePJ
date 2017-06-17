@@ -50,8 +50,6 @@ for i in boto3.resource('ec2').instances.iterator():
 
     # tag に init表記なし、statusが"running"の場合、監視有効化
     if tagname != "init" and i.state['Name'] == "running":
-        print tagname
-        print i.state['Name']
         statCtr.hostStatusChange(zbxhostnm, 0)
 
     # 停止したインスタンスは、Zabbixホストも無効化
@@ -68,7 +66,7 @@ for i in boto3.resource('ec2').instances.iterator():
         matchOBJ = re.match(i.id, insToHostInfo)
         if matchOBJ:
             matchOBJ_flag = 1
-        break
+            break
 
     # insToHostnmList.txtに存在しない且つstatusが"terminated"でないものは追記
     if matchOBJ_flag != 1 and i.state['Name'] != "terminated":
@@ -102,9 +100,9 @@ for deldata in allInstanceList:
         terminId = deldata.split(',')[0].replace('\n', '')
         for insToHost in allinsToHost:
             this_hostId = insToHost.split(',')[0].replace('\n', '')
-        # terminated 対象のインスタンスIDからホスト名を調査
-        if this_hostId.find(terminId) >= 0:
-            targHostnm1 = insToHost.split(',')[1].replace('\n', '')
-            targHostnm = targHostnm1.split('.')[0]
-            # zabbixホスト削除
-            delCtr.hostDelete(targHostnm)
+            # terminated 対象のインスタンスIDからホスト名を調査
+            if this_hostId.find(terminId) >= 0:
+                targHostnm1 = insToHost.split(',')[1].replace('\n', '')
+                targHostnm = targHostnm1.split('.')[0]
+                # zabbixホスト削除
+                delCtr.hostDelete(targHostnm)

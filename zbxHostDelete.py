@@ -33,7 +33,6 @@ class ZabbixApi(object):
         return json.loads(urllib2.urlopen(request).read())
 
 def hostDelete(hostnm):
-
     # Zabbix ホスト削除処理
     paramZabbixServer = '172.31.16.60'
     api = ZabbixApi(paramZabbixServer, 'admin', 'zabbix')
