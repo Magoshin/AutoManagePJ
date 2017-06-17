@@ -99,9 +99,20 @@ if __name__ == "__main__":
     newid = OT_ins.CreateTicket(title, type, queue, state, priority,
                                 customer_user, otrs_subject, body)
 
+    # OTRSのグローバルIP調査
+    instanceListNm = "/home/ansible/pythonTools/data/instanceList.txt"
+    otrs_globalip = "1.2.3.4"
+    with open(instanceListNm, 'r') as insf:
+        allinsToHost = insf.readlines()
+    for thisline in allinsToHost:
+        thislist = thisline.split(",")
+        thishostnm = thislist[5].rstrip("\n")
+        if thishostnm.find("OTRS") != -1:
+            otrs_globalip = thislist[3]
+
     # Tocaro 連携
     tc_title = otrs_subject
-    ticket_url = "http://52.199.253.24/otrs/index.pl?Action=\
+    ticket_url = "http://" + otrs_globalip + "/otrs/index.pl?Action=\
                   AgentTicketZoom;TicketID=" + newid
     value = "Check the Failure information in " + ticket_url
     Tc_ins = TocaroApi()
